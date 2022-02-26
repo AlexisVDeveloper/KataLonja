@@ -14,7 +14,6 @@ public class TravelManager
     public TravelManager(Dictionary<Fish,int> fishPackage)
     {
         this.fishPackage = fishPackage;
-
         this.actualWeight = fishPackage.Aggregate(this.actualWeight, (weight, fish) => (weight + fish.Value));
     }
 
@@ -26,5 +25,14 @@ public class TravelManager
     public int GetActualWeight()
     {
         return this.actualWeight;
+    }
+
+    public int CalculateBaseTravelCost(City city) 
+    {
+        Dictionary<Fish, int> cityCostMarket = city.GetFishCostMarket();
+
+        
+
+        return 0;
     }
 }

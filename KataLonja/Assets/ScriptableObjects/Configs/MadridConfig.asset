@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MadridConfig
   m_EditorClassIdentifier: 
   cityName: Madrid
+  cityDistance: 800
   marketList:
   - fishType: 0
     price: 500

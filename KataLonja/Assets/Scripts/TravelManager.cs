@@ -12,9 +12,9 @@ public class TravelManager
     private const int MAX_DISTANCE_DEVALUE = 100;
     private Dictionary<Fish, int> fishPackage;
     private int actualWeight;
-    
 
-    public TravelManager(Dictionary<Fish,int> fishPackage)
+
+    public TravelManager(Dictionary<Fish, int> fishPackage)
     {
         this.fishPackage = fishPackage;
         this.actualWeight = fishPackage.Aggregate(this.actualWeight, (weight, fish) => (weight + fish.Value));
@@ -30,13 +30,13 @@ public class TravelManager
         return this.actualWeight;
     }
 
-    public int CalculateBaseTravelCost(City city) 
+    public int CalculateBaseTravelCost(City city)
     {
         List<MarketObject> cityCostMarket = city.GetFishCostMarket();
 
         int result = 0;
 
-        foreach(var marketObject in cityCostMarket) 
+        foreach (var marketObject in cityCostMarket)
         {
             result += marketObject.price * fishPackage[marketObject.fishType];
         }
@@ -44,7 +44,7 @@ public class TravelManager
         return result;
     }
 
-    public int CalculateTotalTravelCost(City city) 
+    public int CalculateTotalTravelCost(City city)
     {
         int baseCost = CalculateBaseTravelCost(city);
 
@@ -54,18 +54,18 @@ public class TravelManager
 
         int totalPrice = baseCost;
 
-        totalPrice += TRUCK_COST;
+        totalPrice -= TRUCK_COST;
 
-        totalPrice += KM_COST * cityDistance;
+        totalPrice -= KM_COST * cityDistance;
 
-        totalPrice += (baseCost * devaluePercent) / 100;
+        totalPrice -= (baseCost * devaluePercent) / 100;
 
         return totalPrice;
     }
 
-    public City CalculateBestTravelOption(List<City> cities) 
+    public City CalculateBestTravelOption(List<City> cities)
     {
-        City bestOption = cities.OrderBy(city => CalculateTotalTravelCost(city)).First();
+        City bestOption = cities.OrderByDescending(city => CalculateTotalTravelCost(city)).First();
         return bestOption;
     }
 }

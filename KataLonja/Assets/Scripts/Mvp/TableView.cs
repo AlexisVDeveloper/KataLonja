@@ -8,11 +8,14 @@ using System.Linq;
 
 public class TableView : MonoBehaviour, ITableView
 {
-    [SerializeField] List<CityConfig> cityConfigs;
-    [SerializeField] Button calculateBestOptionBtn;
+    [SerializeField] private List<CityView> cityViews;
+    [SerializeField] private Button calculateBestOptionBtn;
+    [SerializeField] private FishInputView[] fishInputs;
+
+    [SerializeField] private PopUpView popUp;
 
     private TablePresenter _presenter;
-    private Action onPressCalculateButton;
+    private Action<FishInputView[], List<City>> onPressCalculateButton;
 
     // Start is called before the first frame update
     void Start()
@@ -24,15 +27,20 @@ public class TableView : MonoBehaviour, ITableView
 
     private void CalculateBestOptionButtonAction()
     {
-        onPressCalculateButton?.Invoke();
+        List<City> cities = cityViews.Select(cityView => cityView.GetCity()).ToList();
+
+        onPressCalculateButton?.Invoke(fishInputs, cities);
     }
 
-    public void SubscribeToButtonEvent(Action callback)
+    public void SubscribeToButtonEvent(Action<FishInputView[], List<City>> callback)
     {
-        if (!onPressCalculateButton.GetInvocationList().Contains(callback))
-        {
-            onPressCalculateButton += callback;
-        }
+        onPressCalculateButton += callback;
+    }
+
+    public void ShowBestOption(string bestOption)
+    {
+        popUp.ShowPopUp();
+        popUp.SetBestOption(bestOption);
     }
 
     private void OnDestroy()

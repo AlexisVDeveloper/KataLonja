@@ -19,7 +19,7 @@ public class TravelManagerShould
     private City barcelonaDummy;
     private City lisboaDummy;
     private const int expectedBaseCost = 47500;
-    private const int expectedTotalCost = 52905;
+    private const int expectedTotalCost = 42095;
 
     [SetUp]
     public void SetUp()
@@ -42,21 +42,21 @@ public class TravelManagerShould
         lisboaFakeConfig.marketList.Add(new MarketObject(Fish.Vieiras, 600));
         lisboaFakeConfig.marketList.Add(new MarketObject(Fish.Pulpo, 100));
         lisboaFakeConfig.marketList.Add(new MarketObject(Fish.Centollos, 500));
-        lisboaFakeConfig.cityDistance = 800;
+        lisboaFakeConfig.cityDistance = 600;
         lisboaFakeConfig.cityName = "Lisboa";
 
         CityConfig barcelonaFakeConfig = ScriptableObject.CreateInstance<CityConfig>();
         barcelonaFakeConfig.marketList.Add(new MarketObject(Fish.Vieiras, 450));
         barcelonaFakeConfig.marketList.Add(new MarketObject(Fish.Pulpo, 120));
         barcelonaFakeConfig.marketList.Add(new MarketObject(Fish.Centollos, 0));
-        barcelonaFakeConfig.cityDistance = 800;
+        barcelonaFakeConfig.cityDistance = 1100;
         barcelonaFakeConfig.cityName = "Barcelona";
 
         madridDummy = new City(madridFakeConfig);
         barcelonaDummy = new City(barcelonaFakeConfig);
         lisboaDummy = new City(lisboaFakeConfig);
     }
-    
+
     [Test]
     public void NotSurpassWeightLimit()
     {
@@ -77,7 +77,7 @@ public class TravelManagerShould
     }
 
     [Test]
-    public void ReturnTotalTravelCost() 
+    public void ReturnTotalTravelCost()
     {
         int madridCost = travelManager.CalculateTotalTravelCost(madridDummy);
 
@@ -85,7 +85,7 @@ public class TravelManagerShould
     }
 
     [Test]
-    public void CalculateBestOption() 
+    public void CalculateBestOption()
     {
         List<City> cities = new List<City> {
             madridDummy,
@@ -95,6 +95,8 @@ public class TravelManagerShould
 
         City bestOption = travelManager.CalculateBestTravelOption(cities);
 
-        Assert.AreEqual(barcelonaDummy.GetCityName(), bestOption.GetCityName());
+        Assert.AreEqual(lisboaDummy.GetCityName(), bestOption.GetCityName());
     }
+
+
 }

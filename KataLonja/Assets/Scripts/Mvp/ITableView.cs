@@ -5,5 +5,6 @@ using UnityEngine;
 
 public interface ITableView
 {
-    void SubscribeToButtonEvent(Action callback);
+    void SubscribeToButtonEvent(Action<FishInputView[], List<City>> callback);
+    void ShowBestOption(string bestOption);
 }

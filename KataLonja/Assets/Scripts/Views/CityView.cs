@@ -15,7 +15,19 @@ public class CityView : MonoBehaviour
         foreach (var item in fishInputs)
         {
             item.SetFishValue(cityConfig.marketList.FirstOrDefault(marketObject => marketObject.fishType == item.GetFishType()).price.ToString());
+            item.SetInputChangeValue(SetConfigValue);
         }
+    }
+
+    private void SetConfigValue(string value, Fish fishtype)
+    {
+        MarketObject item = cityConfig.marketList.FirstOrDefault(marketObject => marketObject.fishType == fishtype);
+        int index = cityConfig.marketList.IndexOf(item);
+
+        int.TryParse(value, out item.price);
+
+        cityConfig.marketList[index] = item;
+
     }
 
     public City GetCity()
